@@ -7,8 +7,12 @@ from bottle import Bottle, run, template, request, response
 
 ##### FUNCTIONS #####
 
-def get_text():
-	""" 사용자 언어 확인 & 설정 후, 언어에 맞춰 출력할 텍스트를 반환.  """
+def get_text_form():
+	""" 업로드 페이지에 사용할 텍스트를 반환한다.
+		사용자 언어 확인 & 설정 후, 언어에 맞는 텍스트를 반환.
+
+		TO-DO: 텍스트를 파일로 따로 저장하고 불러올까?
+	"""
 
 	t = {}
 	if get_lang() == 'ko':
@@ -35,13 +39,39 @@ def get_text():
 		t['lang_sel'] = '한국어'
 	return t
 
+def get_text_result():
+	""" 결과 페이지에서 사용할 텍스트를 반환한다. (get_text_form과 거의 같음)  """
+
+	t = {}
+	if get_lang() == 'ko':
+		t['title'] = 'DSLR 셔터 카운터'
+		t['wrng_acc'] = '부적절한 접근입니다!'
+		t['js_big'] = '파일이 너무 큽니다! (최대 크기: 20MB)'
+		t['up_fail'] = '업로드 실패!'
+		t['exif_fail'] = 'Exif 정보를 해석할 수 없는 파일입니다.'
+		t['no_sc'] = '파일 내 촬영 횟수 정보가 존재하지 않습니다.'
+		t['sc1'] = '총 촬영 횟수는 '
+		t['sc2'] = ' 회입니다.'
+		t['goback'] = '돌아가기'
+	else:
+		t['title'] = 'DSLR Shutter Counter'
+		t['wrng_acc'] = 'Invalid Access!'
+		t['js_big'] = 'The file is TOO BIG! (Max size: 20MB)'
+		t['up_fail'] = 'Uploading failed.'
+		t['exif_fail'] = 'This file contains no Exif data.'
+		t['no_sc'] = 'There is no shutter count information in this file.'
+		t['sc1'] = 'Shutter Count: '
+		t['sc2'] = ''
+		t['goback'] = 'BACK'
+	return t
+
 def get_lang():
 	""" 언어 확인 & 쿠키 설정 후, 언어값 반환.  """
 
 	if request.forms.get('lang'):		# 사용자가 언어 변경을 요청했을 때
 		lang = 'ko' if request.forms['lang'] == 'ko' else 'en'
 	elif request.cookies.get('lang'):
-		lang = 'ko' if request.cookies['lang'] == 'ko' else 'en'
+		return 'ko' if request.cookies['lang'] == 'ko' else 'en'
 	elif request.environ.get("HTTP_ACCEPT_LANGUAGE"):
 		lang = 'ko' if request.environ['HTTP_ACCEPT_LANGUAGE'] == 'ko' else 'en'
 	else:
@@ -51,13 +81,29 @@ def get_lang():
 	return lang
 
 
-##### MAIN #####
+##### ROUTING #####
 
 app = Bottle()
 
 @app.route('/')
 def show_form():
-	""" 첫 페이지. 사진 업로드 폼 출력.  """
+	""" 첫 페이지. 사진 업로드 폼 출력  """
+	t = get_text_form()
+	return template('upload.tpl', t=t)
+
+@app.route('/result', methods="POST")
+def show_result():
+	"""" 사진 분석 & 결과 출력  """
+	t = get_text_result()
+	return template('result.tpl', t=t)
+
+@app.route('/result')
+@app.route('/result/')
+def access_error():
+	""" 결과 페이지에 대한 잘못된 접근 처리 """
+
+
+##### MAIN #####
 
 if __name__ == '__main__':
 	app.run(host="0.0.0.0", port=5000, debug=True)
