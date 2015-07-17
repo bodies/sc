@@ -1,7 +1,7 @@
 """
 	Shutter Counter
 """
-
+import os
 from bottle import Bottle, run, template, request, response
 
 
@@ -90,7 +90,10 @@ def do_upload():
 	BUF_SIZE = 8192
 	upload = request.files.get('imagefile')
 	# os.path.size(upload.file)
-
+	print("서버 리로드 중...")
+	print(os.stat(upload.file.fileno()).st_size)
+	print(upload.raw_filename)
+	return
 
 
 ##### ROUTING #####
@@ -120,4 +123,4 @@ def access_error():
 ##### MAIN #####
 
 if __name__ == '__main__':
-	app.run(host="0.0.0.0", port=5000, debug=True)
+	app.run(host="0.0.0.0", port=5000, debug=True, reloader=True)

@@ -1,8 +1,8 @@
-% include('header.tpl', title=t['title])
+% include('header.tpl', title=t['title'])
 			<h1><a href=".">{{t['title']}}</a></h1>
 			<div id="main">
 				<div id="result">
-				{{tbl}}
+					<!-- HERE GOES RESULT TABLE -->
 				</div>
 				<div class="res_footer"><a href=".">{{t['goback']}}</a></div>
 				<div class="ad_banner">

@@ -5,7 +5,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link href="./style.css" rel="stylesheet" type="text/css" />
 		<title>{{title}}</title>
-		<meta name="keywords" content="{{get(keywords, '')}}" />
+		<meta name="keywords" content="{{get('keywords', '')}}" />
 		<script type="text/javascript" src="script.js"></script>
 		<script type="text/javascript">
 		  var _gaq = _gaq || [];
