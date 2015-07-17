@@ -16,6 +16,7 @@ def get_text_form():
 
 	t = {}
 	if get_lang() == 'ko':
+		t['lang'] = 'ko,'
 		t['title'] = 'DSLR 셔터 카운터'
 		t['kword'] = '셔터 카운트, 컷수, 셔터 카운터, 촬영 횟수, Exif, DSLR, 카메라, 사진기, 니콘, 펜탁스'
 		t['main'] = 'DSLR 사진기의 촬영 횟수를 확인하는 웹 프로그램입니다.<br />편집하지 않은 사진 파일을 업로드하시면 촬영 시점의 컷수가 표시됩니다.'
@@ -27,6 +28,7 @@ def get_text_form():
 		t['js_notype'] = '지원하는 형식이 아닙니다.'
 		t['lang_sel'] = 'English'
 	else:
+		t['lang'] = 'en',
 		t['title'] = 'DSLR Shutter Counter'
 		t['kword'] = 'shutter count, shutter counter, shutter actuation count, Exif, DSLR, camera, Nikon, Pentax'
 		t['main'] = 'Online camera shutter counter.<br />Upload a photo from your camera, and find out how many shots it has taken!'
@@ -44,6 +46,7 @@ def get_text_result():
 
 	t = {}
 	if get_lang() == 'ko':
+		t['lang'] = 'ko',
 		t['title'] = 'DSLR 셔터 카운터'
 		t['wrng_acc'] = '부적절한 접근입니다!'
 		t['js_big'] = '파일이 너무 큽니다! (최대 크기: 20MB)'
@@ -54,6 +57,7 @@ def get_text_result():
 		t['sc2'] = ' 회입니다.'
 		t['goback'] = '돌아가기'
 	else:
+		t['lang'] = 'en',
 		t['title'] = 'DSLR Shutter Counter'
 		t['wrng_acc'] = 'Invalid Access!'
 		t['js_big'] = 'The file is TOO BIG! (Max size: 20MB)'
@@ -81,6 +85,14 @@ def get_lang():
 	return lang
 
 
+def do_upload():
+	MAX_SIZE = 20 * 1024 * 1024
+	BUF_SIZE = 8192
+	upload = request.files.get('imagefile')
+	# os.path.size(upload.file)
+
+
+
 ##### ROUTING #####
 
 app = Bottle()
@@ -91,9 +103,11 @@ def show_form():
 	t = get_text_form()
 	return template('upload.tpl', t=t)
 
-@app.route('/result', methods="POST")
+@app.route('/result', method="POST")
 def show_result():
 	"""" 사진 분석 & 결과 출력  """
+
+	do_upload()
 	t = get_text_result()
 	return template('result.tpl', t=t)
 
