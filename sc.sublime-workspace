@@ -1,0 +1,534 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"v",
+				"v	forstmt"
+			],
+			[
+				"template",
+				"template	function"
+			],
+			[
+				"serve_",
+				"serve_forever	function"
+			],
+			[
+				"__n",
+				"__name__〔variable〕"
+			],
+			[
+				"c",
+				"config"
+			],
+			[
+				"rand",
+				"random_num"
+			],
+			[
+				"D",
+				"DATABASE"
+			],
+			[
+				"H",
+				"HttpResponse"
+			],
+			[
+				"Duck",
+				"Duckling"
+			],
+			[
+				"Mo",
+				"MotherClass"
+			],
+			[
+				"pr",
+				"println"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/Users/yoonjo/works/etc/sc/index.php",
+			"settings":
+			{
+				"buffer_size": 5858,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "sc.py",
+			"settings":
+			{
+				"buffer_size": 2081,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 37.0,
+		"selected_items":
+		[
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"P",
+				"Package Control: Remove Package"
+			],
+			[
+				"list",
+				"Package Control: List Packages"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"git reset",
+				"Git: Reset (unstage) Current File"
+			],
+			[
+				"add",
+				"Project: Add Folder"
+			],
+			[
+				"git commi",
+				"Git: Commit"
+			],
+			[
+				"git stt",
+				"Git: Status"
+			],
+			[
+				"git: add",
+				"Git: Add Current File"
+			],
+			[
+				"git: ",
+				"Git: Init"
+			],
+			[
+				"git",
+				"Git: Open..."
+			],
+			[
+				"vi",
+				"SublimeREPL: Python - virtualenv"
+			],
+			[
+				"v",
+				"SublimeREPL: Python - virtualenv"
+			],
+			[
+				"Package Control: in",
+				"Package Control: Install Package"
+			],
+			[
+				"in",
+				"Package Control: Install Package"
+			],
+			[
+				"vir",
+				"SublimeREPL: Python - virtualenv"
+			],
+			[
+				"sublime py",
+				"SublimeREPL: Python"
+			],
+			[
+				"vit",
+				"SublimeREPL: Python - virtualenv"
+			],
+			[
+				"subli py",
+				"SublimeREPL: Python"
+			],
+			[
+				"sub py",
+				"SublimeREPL: Python - virtualenv"
+			],
+			[
+				"viru",
+				"SublimeREPL: Python - virtualenv"
+			],
+			[
+				"sumlime",
+				"SublimeREPL: Python - Sublime Text Console"
+			],
+			[
+				"virtual",
+				"SublimeREPL: Python - virtualenv"
+			],
+			[
+				"sublime	vir",
+				"SublimeCodeIntel: Enable Live Autocompletion for Current Language"
+			],
+			[
+				"install ",
+				"Package Control: Install Package"
+			],
+			[
+				"packa",
+				"Package Control: List Packages"
+			],
+			[
+				"repl",
+				"SublimeREPL: Python"
+			],
+			[
+				"Package Control:",
+				"Package Control: Add Channel"
+			],
+			[
+				"sftp pa",
+				"SFTP: Show Panel"
+			],
+			[
+				"sftp sho",
+				"SFTP: Show Panel"
+			],
+			[
+				"sftp",
+				"Preferences: SFTP Settings"
+			],
+			[
+				"s",
+				"SFTP: Show Panel"
+			],
+			[
+				"Install",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 457.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/yoonjo/works/python/shutter_counter/sc.py",
+		"/Users/yoonjo/works/python/v",
+		"/Users/yoonjo/works/nodance/home/bodies/sc/sc.py",
+		"/Users/yoonjo/works/python/shutter_counter/start",
+		"/Users/yoonjo/works/python/shutter_counter/README.txt",
+		"/Users/yoonjo/works/nodance/home/bodies/ini/development.ini",
+		"/Users/yoonjo/works/nodance/home/bodies/ini/tutorial/__init__.py",
+		"/Users/yoonjo/works/nodance/home/bodies/ini/setup.py",
+		"/Users/yoonjo/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/Users/yoonjo/works/nodance/home/bodies/ini/tutorial/__init.py__",
+		"/Users/yoonjo/works/nodance/home/bodies/package/tutorial/app.py",
+		"/Users/yoonjo/works/nodance/home/bodies/package/tutorial/__init.py__",
+		"/Users/yoonjo/works/nodance/home/bodies/pyramid_test/app.py",
+		"/Users/yoonjo/works/nodance/home/bodies/package/setup.py",
+		"/Users/yoonjo/works/nodance/home/bodies/pyramid/setup.py",
+		"/Users/yoonjo/works/nodance/home/bodies/sc/.gitignore",
+		"/Users/yoonjo/works/nodance/home/bodies/sc/.git/COMMIT_EDITMSG",
+		"/Users/yoonjo/works/test/home/user1/test/hello.py",
+		"/Users/yoonjo/works/nodance/home/bodies/sc/templates/result.html",
+		"/Users/yoonjo/dev/web/sc/result.php",
+		"/Users/yoonjo/Library/Application Support/Sublime Text 2/Packages/User/Git.sublime-settings",
+		"/Users/yoonjo/Library/Application Support/Sublime Text 2/Packages/User/test.sublime-build",
+		"/Users/yoonjo/works/test/home/user1/test/test.py",
+		"/Users/yoonjo/Library/Application Support/Sublime Text 2/Packages/Python/Python.sublime-build",
+		"/Users/yoonjo/Library/Application Support/Sublime Text 2/Packages/Default/exec.py",
+		"/Users/yoonjo/works/Sublime_Text_Projects/test.sublime-project",
+		"/Users/yoonjo/works/test/home/user1/test/.git/COMMIT_EDITMSG",
+		"/Users/yoonjo/works/test/home/user1/test/README.md",
+		"/Users/yoonjo/Library/Application Support/Sublime Text 2/Packages/User/Default (OSX).sublime-keymap",
+		"/Users/yoonjo/Library/Application Support/Sublime Text 2/Packages/Default/Default (OSX).sublime-keymap",
+		"/Users/yoonjo/Library/Application Support/Sublime Text 2/Packages/SublimeREPL/SublimeREPL.sublime-settings",
+		"/Users/yoonjo/Library/Application Support/Sublime Text 2/Packages/User/SublimeREPL.sublime-settings",
+		"/Users/yoonjo/works/f1/pyvenv.cfg",
+		"/Users/yoonjo/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/Users/yoonjo/works/f1/home/jo/flaskr/flaskr.sublime-workspace",
+		"/Users/yoonjo/.bash_profile",
+		"/Users/yoonjo/works/f1/home/jo/flaskr/flaskr.sublime-project",
+		"/Users/yoonjo/dev/python/prac_1.py",
+		"/Users/yoonjo/works/f1/lib/python3.4/site-packages/flask/app.py",
+		"/Users/yoonjo/works/f1/lib/python3.4/site-packages/flask/globals.py",
+		"/Users/yoonjo/works/f1/lib/python3.4/site-packages/werkzeug/contrib/sessions.py",
+		"/Users/yoonjo/works/f1/lib/python3.4/site-packages/flask/sessions.py",
+		"/Users/yoonjo/works/web1/home/bodies/mysite/polls/views.py",
+		"/Users/yoonjo/works/web1/home/bodies/mysite/polls/templates/polls/detail.html",
+		"/Users/yoonjo/works/web1/home/bodies/mysite/mysite/settings.py",
+		"/Users/yoonjo/tmp/web1.sh",
+		"/Users/yoonjo/works/web1/home/bodies/mysite/mysite/urls.py",
+		"/Users/yoonjo/works/web1/home/bodies/mysite/polls/urls.py",
+		"/Users/yoonjo/works/web1/home/bodies/mysite/polls/models.py",
+		"/Users/yoonjo/Library/Application Support/Sublime Text 2/Packages/User/Terminal.sublime-settings",
+		"/Users/yoonjo/Library/Application Support/Sublime Text 2/Packages/Terminal/Default (OSX).sublime-keymap",
+		"/Users/yoonjo/Library/Application Support/Sublime Text 2/Packages/Terminal/Terminal.sublime-settings",
+		"/Users/yoonjo/dev/python/test.py",
+		"/Users/yoonjo/Library/Application Support/Sublime Text 2/Packages/User/sftp_servers/nodance",
+		"/Users/yoonjo/Library/Application Support/Sublime Text 2/Packages/SFTP/SFTP.sublime-settings",
+		"/Users/yoonjo/Library/Application Support/Sublime Text 2/Packages/SFTP/Default (OSX).sublime-keymap",
+		"/var/folders/qr/5zkj0z2j48bfcypln1jx3xqh0000gn/T/sublime-sftp-browse-1432829051/nodance/home/bodies/www/index.html",
+		"/Users/yoonjo/works/web1/home/bodies/bbs/polls/views.py",
+		"/Users/yoonjo/works/web1/home/bodies/bbs/polls/models.py",
+		"/Users/yoonjo/works/web1/home/bodies/bbs/manage.py",
+		"/Users/yoonjo/KakaoTalk_20150519_005949432.jpg",
+		"/Users/yoonjo/dev/wordpress/white_nutcrackr/header.php",
+		"/Users/yoonjo/dev/java/test/Test.java",
+		"/Users/yoonjo/dev/java/class_test/test.java",
+		"/Users/yoonjo/dev/java/test/Mixed2.java",
+		"/Users/yoonjo/Library/Application Support/Sublime Text 2/Packages/User/Plain text.sublime-settings",
+		"/Users/yoonjo/dev/tmp/words_mid.html"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			";",
+			"$t",
+			"egg",
+			"'",
+			"hello_world",
+			"	",
+			"lang = ",
+			"print ",
+			"?>",
+			"<?php",
+			"$lang",
+			"$lang;",
+			"];",
+			"$t",
+			"print ",
+			"?>",
+			"<?php",
+			"print ",
+			"print",
+			"$t",
+			"?>",
+			"<?php",
+			"build",
+			" => ",
+			"\\\"id\\\"",
+			"id\"",
+			"id:",
+			"id",
+			"default",
+			"directory",
+			"side",
+			"bar",
+			"caret",
+			"pop",
+			"session",
+			"entry",
+			"bloginfo\nbloginfo",
+			"bloginfo",
+			"screen",
+			"reader",
+			"submit",
+			"getClass",
+			"line",
+			"line height"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"",
+			"t",
+			"return ",
+			"",
+			"}}",
+			"{{",
+			"lang",
+			"]",
+			"text",
+			"",
+			"}}",
+			"{{",
+			"",
+			"text",
+			"}}",
+			"{{",
+			":",
+			"hashCode"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/Users/yoonjo/works/etc/sc/index.php",
+					"settings":
+					{
+						"buffer_size": 5858,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								881,
+								881
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 24.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "sc.py",
+					"settings":
+					{
+						"buffer_size": 2081,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								743,
+								743
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 38.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 142.0
+	},
+	"output.sftp":
+	{
+		"height": 142.0
+	},
+	"replace":
+	{
+		"height": 70.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"",
+				"mysite/urls.py"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"/Users/yoonjo/works/Sublime_Text_Projects/test.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 184.0,
+	"status_bar_visible": true
+}
