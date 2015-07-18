@@ -2,7 +2,7 @@
 	Shutter Counter
 """
 import os
-from bottle import Bottle, run, template, request, response
+from bottle import Bottle, run, template, request, response, static_file
 
 
 ##### FUNCTIONS #####
@@ -90,10 +90,62 @@ def do_upload():
 	BUF_SIZE = 8192
 	upload = request.files.get('imagefile')
 	# os.path.size(upload.file)
+
+	file_size = os.stat(upload.file.fileno()).st_size
+
 	print("서버 리로드 중...")
-	print(os.stat(upload.file.fileno()).st_size)
+	print(file_size)
 	print(upload.raw_filename)
-	return
+
+	if file_size > MAX_SIZE:
+		return False
+
+	return True
+
+def check_file_size():
+	MAX_SIZE = 20 * 1024 * 1024
+
+
+class ImageProcessor:
+	""" 이미지 업로드 & EXIF 분석용 클래스  """
+
+	err_msg = ""
+	dest = ""
+
+	def __init__(self, post_name, dest_dir, txt):
+		self.file_obj = request.files.get(post_name)
+		self.dest = dest_dir
+
+	def chk_file_size():
+ 		MAX_FILE_SIZE = 20 * 1024 * 1024
+ 		if os.stat(self.file_obj.file.fileno()).st_size > MAX_FILE_SIZE:
+ 			return False
+ 		else:
+ 			return True
+
+	def upload():
+		if not self.file_obj:
+			self.err_msg = txt['up_fail']
+			return False
+		if not chk_file_size():
+			self.err_msg = txt['js_toobig']
+			return False
+		self.dest = self.dest + "/" + file_obj.raw_filename
+		file_obj.save(self.dest, overwrite=True)
+
+	def analyze():
+
+		# TODO: 이미지를 EXIF 분석 도구로 분석 후, 결과값 반환
+
+		return
+
+	def get_result():
+
+		# TODO: 분석값은 받아서, 출력할 HTML 테이블을 만들어서 반환
+
+		return
+
+
 
 
 ##### ROUTING #####
@@ -110,15 +162,29 @@ def show_form():
 def show_result():
 	"""" 사진 분석 & 결과 출력  """
 
-	do_upload()
 	t = get_text_result()
+
+	# TODO: ImageProcessor 객체를 만들어서 이미지를 분석
+
 	return template('result.tpl', t=t)
 
 @app.route('/result')
 @app.route('/result/')
 def access_error():
 	""" 결과 페이지에 대한 잘못된 접근 처리 """
+	""" 고칠 것!! """
+	print("잘못된 접근이라구!")
+	raise HTTPError(403, header=['Location', '/'])
 
+@app.route('/static/<filename>')
+def serve_static(filename):
+	""" 정적 파일에 대한 요청을 처리 """
+	return static_file(filename, root='static')
+
+@app.error(404)
+def error404(error):
+	""" 없는 URL 접근 처리  """
+	return "Nothing Here"
 
 ##### MAIN #####
 

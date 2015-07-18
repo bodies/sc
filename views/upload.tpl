@@ -1,21 +1,21 @@
 % include('header.tpl', title=t['title'], keywords=t['kword'])
-			<h1><a href=".">{{t['title']}}</a></h1>
+			<h1><a href=".">{{!t['title']}}</a></h1>
 			<div id="main">
 				<div class="lang_sel">
-					<a href="." onClick="javascript:choose_lang({{t['lang']}}); return false;">{{t['lang_sel']}}</a>
+					<a href="." onClick="javascript:choose_lang({{!t['lang']}}); return false;">{{!t['lang_sel']}}</a>
 				</div>  <!-- land_sel -->
-				<div class="info">{{t['main']}}</div>
-				<div class="info2"><p>{{t['info']}}</p></div>
+				<div class="info">{{!t['main']}}</div>
+				<div class="info2"><p>{{!t['info']}}</p></div>
 				<div id="upload_form">
-					<h3>{{t['h3']}}</h3>
-					<form name="imgform" method="post" action="/result" enctype="multipart/form-data" onSubmit="javascript:return precheck_file({{t['js_nofile']}}, {{t['js_notype']}}, {{t['uploading']}});">
+					<h3>{{!t['h3']}}</h3>
+					<form name="imgform" method="post" action="/result" enctype="multipart/form-data" onSubmit="javascript:return precheck_file({{!t['js_nofile']}}, {{!t['js_notype']}}, {{!t['uploading']}});">
 						<div class="form_file">
 							<input type="file" name="imagefile" id="imagefile" />
-							<input type="submit" class="submit" id="submitbtn" value="{{t['btn']}}" />
+							<input type="submit" class="submit" id="submitbtn" value="{{!t['btn']}}" />
 						</div>
 					</form>
 					<form name="langForm" method="post" action="./">
-							<input type="hidden" name="lang" id="lang" value="{{t['lang']}}" />
+							<input type="hidden" name="lang" id="lang" value="{{!t['lang']}}" />
 					</form>
 				</div> <!-- upload_form -->
 				<div class="ad_banner">
@@ -25,7 +25,7 @@
 					google_ad_slot = "3474581949";
 					google_ad_width = 468;
 					google_ad_height = 60;
-					googoe_language = "{{t['lang']}}";
+					googoe_language = "{{!t['lang']}}";
 					//-->
 					</script>
 					<script type="text/javascript"

@@ -3,10 +3,10 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link href="./style.css" rel="stylesheet" type="text/css" />
+		<link href="static/style.css" rel="stylesheet" type="text/css" />
 		<title>{{title}}</title>
 		<meta name="keywords" content="{{get('keywords', '')}}" />
-		<script type="text/javascript" src="script.js"></script>
+		<script type="text/javascript" src="static/script.js"></script>
 		<script type="text/javascript">
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', 'UA-34202124-1']);
