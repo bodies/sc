@@ -2,7 +2,7 @@
 			<h1><a href=".">{{!t['title']}}</a></h1>
 			<div id="main">
 				<div class="lang_sel">
-					<a href="." onClick="javascript:choose_lang({{!t['lang']}}); return false;">{{!t['lang_sel']}}</a>
+					<a href="." onClick="javascript:choose_lang('{{t['lang']}}'); return false;">{{!t['lang_sel']}}</a>
 				</div>  <!-- land_sel -->
 				<div class="info">{{!t['main']}}</div>
 				<div class="info2"><p>{{!t['info']}}</p></div>
@@ -15,7 +15,7 @@
 						</div>
 					</form>
 					<form name="langForm" method="post" action="./">
-							<input type="hidden" name="lang" id="lang" value="{{!t['lang']}}" />
+							<input type="hidden" name="lang" id="lang" value="{{t['lang']}}" />
 					</form>
 				</div> <!-- upload_form -->
 				<div class="ad_banner">

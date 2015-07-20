@@ -1,2 +1,5 @@
 # Sublime Text 2
 *.sublime-workspace
+
+# Image upload folder
+pool

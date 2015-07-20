@@ -2,6 +2,7 @@
 			<h1><a href=".">{{t['title']}}</a></h1>
 			<div id="main">
 				<div id="result">
+					{{!result}}
 					<!-- HERE GOES RESULT TABLE -->
 				</div>
 				<div class="res_footer"><a href=".">{{t['goback']}}</a></div>

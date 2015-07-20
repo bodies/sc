@@ -2,6 +2,7 @@
 	Shutter Counter
 """
 import os
+import subprocess
 from bottle import Bottle, run, template, request, response, static_file
 
 
@@ -16,7 +17,7 @@ def get_text_form():
 
 	t = {}
 	if get_lang() == 'ko':
-		t['lang'] = 'ko,'
+		t['lang'] = 'ko'
 		t['title'] = 'DSLR 셔터 카운터'
 		t['kword'] = '셔터 카운트, 컷수, 셔터 카운터, 촬영 횟수, Exif, DSLR, 카메라, 사진기, 니콘, 펜탁스'
 		t['main'] = 'DSLR 사진기의 촬영 횟수를 확인하는 웹 프로그램입니다.<br />편집하지 않은 사진 파일을 업로드하시면 촬영 시점의 컷수가 표시됩니다.'
@@ -28,7 +29,7 @@ def get_text_form():
 		t['js_notype'] = '지원하는 형식이 아닙니다.'
 		t['lang_sel'] = 'English'
 	else:
-		t['lang'] = 'en',
+		t['lang'] = 'en'
 		t['title'] = 'DSLR Shutter Counter'
 		t['kword'] = 'shutter count, shutter counter, shutter actuation count, Exif, DSLR, camera, Nikon, Pentax'
 		t['main'] = 'Online camera shutter counter.<br />Upload a photo from your camera, and find out how many shots it has taken!'
@@ -46,7 +47,7 @@ def get_text_result():
 
 	t = {}
 	if get_lang() == 'ko':
-		t['lang'] = 'ko',
+		t['lang'] = 'ko'
 		t['title'] = 'DSLR 셔터 카운터'
 		t['wrng_acc'] = '부적절한 접근입니다!'
 		t['js_big'] = '파일이 너무 큽니다! (최대 크기: 20MB)'
@@ -57,7 +58,7 @@ def get_text_result():
 		t['sc2'] = ' 회입니다.'
 		t['goback'] = '돌아가기'
 	else:
-		t['lang'] = 'en',
+		t['lang'] = 'en'
 		t['title'] = 'DSLR Shutter Counter'
 		t['wrng_acc'] = 'Invalid Access!'
 		t['js_big'] = 'The file is TOO BIG! (Max size: 20MB)'
@@ -84,68 +85,96 @@ def get_lang():
 	response.set_cookie('lang', lang)
 	return lang
 
-
-def do_upload():
-	MAX_SIZE = 20 * 1024 * 1024
-	BUF_SIZE = 8192
-	upload = request.files.get('imagefile')
-	# os.path.size(upload.file)
-
-	file_size = os.stat(upload.file.fileno()).st_size
-
-	print("서버 리로드 중...")
-	print(file_size)
-	print(upload.raw_filename)
-
-	if file_size > MAX_SIZE:
-		return False
-
-	return True
-
-def check_file_size():
-	MAX_SIZE = 20 * 1024 * 1024
-
-
 class ImageProcessor:
 	""" 이미지 업로드 & EXIF 분석용 클래스  """
 
 	err_msg = ""
 	dest = ""
+	t = {}
 
 	def __init__(self, post_name, dest_dir, txt):
 		self.file_obj = request.files.get(post_name)
 		self.dest = dest_dir
+		self.t = txt
+		print("ImageProcessor created!")
 
-	def chk_file_size():
- 		MAX_FILE_SIZE = 20 * 1024 * 1024
- 		if os.stat(self.file_obj.file.fileno()).st_size > MAX_FILE_SIZE:
+	def chk_file_size(self):
+		MAX_FILE_SIZE = 20 * 1024 * 1024
+		print("file size: " + str(os.stat(self.file_obj.file.fileno()).st_size))
+		if os.stat(self.file_obj.file.fileno()).st_size > MAX_FILE_SIZE:
  			return False
- 		else:
- 			return True
+		else:
+			return True
 
-	def upload():
+	def upload(self):
 		if not self.file_obj:
-			self.err_msg = txt['up_fail']
+			self.err_msg = self.t['up_fail']
 			return False
-		if not chk_file_size():
-			self.err_msg = txt['js_toobig']
+		if not self.chk_file_size():
+			self.err_msg = self.t['js_toobig']
 			return False
-		self.dest = self.dest + "/" + file_obj.raw_filename
-		file_obj.save(self.dest, overwrite=True)
+		self.dest = self.dest + "/" + self.file_obj.raw_filename
+		self.file_obj.save(self.dest, overwrite=True)
+		print("Uploaded successfully")
+		return True
 
-	def analyze():
+	def analyze(self):
+		""" Exiftool을 이용해서 이미지 분석 후, 결과값 반환
+			TO-DO: 에러(예외) 발생 시, 안전한 처리 방법 만들 것! """
 
-		# TODO: 이미지를 EXIF 분석 도구로 분석 후, 결과값 반환
+		cmd = "exiftool -ShutterCount -ImageNumber -Make -Model -FileName -FileType -CreateDate -j " + self.dest
+		print(subprocess.check_output(cmd.split(), universal_newlines=True).replace('\n', ''))
+		res = eval(subprocess.check_output(cmd.split(), universal_newlines=True).replace("\n", ""))
+		print(type(res))
+		# for k, v in res[0]:
+			# print(k, ": ", v)
+		return res[0] if res else False
 
-		return
+	def get_result(self):
+		""" 이미지를 분석하고, 결과를 출력할 HTML 테이블을 만들어서 반환 """
+		data = self.analyze()
+		if not data:
+			print("no data!")
+			return False
 
-	def get_result():
+		# 셔터 카운트 얻기
+		if 'ShutterCount' in data:
+			shutter_count = data['ShutterCount']
+			print(shutter_count)
+		elif 'ImageNumber' in data:
+			shutter_count = data['ImageNumber']
+		else:
+			shutter_count = 0
 
-		# TODO: 분석값은 받아서, 출력할 HTML 테이블을 만들어서 반환
+		shutter_count = '{:,}'.format(int(shutter_count))
 
-		return
+		if shutter_count:
+			res_sc = self.t['sc1'] + "<span class=\"count-num\">" + shutter_count + "</span>" + self.t['sc2']
+		else:
+			res_sc = '<div class="no_sc">' + self.t['no_sc'] + '</div>'
 
+		# 필요한 데이터만 옮겨담기 (data -> result) & 항목명 번역
+		res_dic = {}
+		key_names = {"Make":"제작사", "Model":"제품명", "FileType":"파일 종류",  "CreateDate":"촬영일자"}
+		if self.t['lang'] == 'ko':
+			print("한글이다!!")
+			for data_key in data.keys():
+				if data_key in key_names:
+					res_dic[key_names[data_key]] = data[data_key]
+		else:
+			for data_key in data.keys():
+				if data_key in key_names:
+					res_dic[data_key] = data[data_key]
 
+		if res_dic:
+			tbl = '<div class="sctable">{0}</div>\n<table cellspacing="0" id="resultTable">'.format(res_sc)
+			for k, v in res_dic.items():
+				tbl += '<tr class="etcinfo"><td><b>{0}</b></td><td>{1}</td></tr>'.format(k, v)
+			tbl += '</table>'
+		else:
+			tbl = self.t['exif_fail']
+		print(tbl)
+		return tbl
 
 
 ##### ROUTING #####
@@ -153,6 +182,7 @@ class ImageProcessor:
 app = Bottle()
 
 @app.route('/')
+@app.route('/', method="POST")
 def show_form():
 	""" 첫 페이지. 사진 업로드 폼 출력  """
 	t = get_text_form()
@@ -164,9 +194,15 @@ def show_result():
 
 	t = get_text_result()
 
-	# TODO: ImageProcessor 객체를 만들어서 이미지를 분석
+	img = ImageProcessor('imagefile', 'pool', t)
 
-	return template('result.tpl', t=t)
+	if img.upload() == False:
+		# TODO: 업로드 실패 시, 에러 처리
+		pass
+
+	result = img.get_result()
+
+	return template('result.tpl', t=t, result=result)
 
 @app.route('/result')
 @app.route('/result/')
@@ -189,4 +225,4 @@ def error404(error):
 ##### MAIN #####
 
 if __name__ == '__main__':
-	app.run(host="0.0.0.0", port=5000, debug=True, reloader=True)
+	app.run(host="127.0.0.1", port=5000, debug=True, reloader=True)
