@@ -139,10 +139,14 @@ class ImageProcessor:
 	def analyze(self):
 		""" Exiftool을 이용해서 이미지 분석 후, 결과값 반환  """
 
-		cmd = "exiftool -ShutterCount -ImageNumber -Make -Model -FileName -FileType -CreateDate -j " + self.dest
-
+		cmd = "exiftool -ShutterCount -ImageNumber -Make -Model -FileName -FileType -CreateDate -j".split()
+		print(type(cmd))
+		print(self.dest)
+		cmd.append(self.dest)
 		try:
-			res = eval(subprocess.check_output(cmd.split(), universal_newlines=True).replace("\n", ""))
+			# cmd에 파일명까지 넣고 split()할 경우, 파일명에 공백이 있을 경우, 에러가 난다
+
+			res = eval(subprocess.check_output(cmd, universal_newlines=True).replace("\n", ""))
 			if not res or not res[0]:
 				print("RES?")
 				raise Exception
@@ -232,32 +236,88 @@ def access_error():
 	""" 고칠 것!! """
 	return template('error.tpl', error='Invalid Access')
 
+@app.route('/clrpool')
+def clear_pool():
+	print("Clearing pool...")
+
+	pool_dir = 'pool/'
+	# arch_dir = pool_dir + 'arch/'
+	print('ClEARING...')
+
+	subprocess.call(("rm", "-rf", pool_dir))
+	os.mkdir('pool')
+
+	return ('<a href="chkpool">Go Back</a>')
+
 @app.route('/chkpool')
 def check_pool():
+	""" TO-DO: 오류시 처리 방법  """
+
 	print("Checking pool...")
 
-	dir = "pool/"
-	dir_arch = dir + "arch/"
+	pool_dir = 'pool/'
+	arch_dir = pool_dir + 'arch/'
 
-	out = ""
+	if not os.path.exists(arch_dir):
+		os.mkdir(arch_dir)
 
-	for file in glob.iglob(dir + '/*'):
-		file_orig = dir + file
-		file_new = dir_arch + file
-		file_tn = dir_arch + "tn_" + file
+	output = ""
+	file_size = 0
+	totla_size = 0
+	count = 0
 
-		out += "<a href=\"{0}\" target=\"_new\">{1}</a><br />".format(dir + file, file)
+	for file in glob.iglob(pool_dir + '/*'):
+		if not os.path.isfile(file): continue	# 디렉토리는 패스
 
-	return out
+		# 원래 파일 준비 & 사이즈 측정
+		file = os.path.basename(file)
+		file_orig = pool_dir + file
+		file_size = os.path.getsize(file_orig)
+		totla_size += file_size
+		count += 1
 
+		name, ext = os.path.splitext(file)
+		ext = ext.lower()
+
+		if ext in ('.jpg', '.jpeg', '.gif', '.png', '.bmp'):
+
+			# 원본이 JPEG이 아니라면, 결과 파일의 확장자를 jpg로 변경 (convert 처리를 위해)
+			new_name = file if ext == '.jpg' or ext == '.jpeg' else name + ".jpg"
+
+			file_new = arch_dir + new_name
+			file_tn = arch_dir + "tn_" + new_name
+
+			# 리사이즈 & 썸네일 파일이 없으면 만듬
+			if not os.path.exists(file_new):
+				# file_o = file_orig.replace(" ", "\ ")
+				# file_n = file_new.replace(" ", "\ ")
+				# file_t = file_tn.replace(" ", "\ ")
+				file_o = file_orig
+				file_n = file_new
+				file_t = file_tn
+
+				subprocess.call(['convert', '-resize', '1024', '-quality', '80%', file_o, file_n])
+				subprocess.call(['convert', '-resize', '100', '-quality', '80%', file_o, file_t])
+
+			output += '<a href="{0}" target="_new"><img src="{1}" /></a>'.format(file_new, file_tn)
+		else:
+			output += "{0}".format(file)
+		output += '({0}, {1} KB)<br />'.format(file, '{:,}'.format(round(file_size / 1024)))
+	output += '<br \><br \>{0} files, {1} KB<br /><br /><a href="clrpool">Clear All</a>'.format(count, '{:,}'.format(round(totla_size / 1024)))
+
+	return template("chkpool.tpl", result=output)
 
 	# return template('check_pool.tpl')
 
 @app.route('/static/<filename>')
-@app.route('/pool/arch/<filename>')
 def serve_static(filename):
 	""" 정적 파일에 대한 요청을 처리 """
 	return static_file(filename, root='static')
+
+@app.route('/pool/arch/<filename>')
+def serve_image(filename):
+	return static_file(filename, root='pool/arch')
+
 
 @app.error(404)
 def error404(error):
