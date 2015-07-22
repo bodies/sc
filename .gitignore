@@ -3,3 +3,9 @@
 
 # Image upload folder
 pool
+
+# For test
+test.py
+
+# OSX
+.DS_Store

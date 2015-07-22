@@ -3,6 +3,7 @@
 """
 import os
 import subprocess
+import glob
 from bottle import Bottle, run, template, request, response, static_file
 
 
@@ -51,7 +52,7 @@ def get_text_result():
 		t['title'] = 'DSLR 셔터 카운터'
 		t['wrng_acc'] = '부적절한 접근입니다!'
 		t['js_big'] = '파일이 너무 큽니다! (최대 크기: 20MB)'
-		t['up_fail'] = '업로드 실패!'
+		t['up_fail'] = '업로드를 실패했습니다!'
 		t['exif_fail'] = 'Exif 정보를 해석할 수 없는 파일입니다.'
 		t['no_sc'] = '파일 내 촬영 횟수 정보가 존재하지 않습니다.'
 		t['sc1'] = '총 촬영 횟수는 '
@@ -62,7 +63,7 @@ def get_text_result():
 		t['title'] = 'DSLR Shutter Counter'
 		t['wrng_acc'] = 'Invalid Access!'
 		t['js_big'] = 'The file is TOO BIG! (Max size: 20MB)'
-		t['up_fail'] = 'Uploading failed.'
+		t['up_fail'] = 'Can\'t upload the file!'
 		t['exif_fail'] = 'This file contains no Exif data.'
 		t['no_sc'] = 'There is no shutter count information in this file.'
 		t['sc1'] = 'Shutter Count: '
@@ -85,6 +86,14 @@ def get_lang():
 	response.set_cookie('lang', lang)
 	return lang
 
+class MyUploadError(Exception):
+	def __init__(self, value):
+			self.value = value
+
+class MyAnalyzeError(Exception):
+	def __init__(self, value):
+			self.value = value
+
 class ImageProcessor:
 	""" 이미지 업로드 & EXIF 분석용 클래스  """
 
@@ -96,7 +105,6 @@ class ImageProcessor:
 		self.file_obj = request.files.get(post_name)
 		self.dest = dest_dir
 		self.t = txt
-		print("ImageProcessor created!")
 
 	def chk_file_size(self):
 		MAX_FILE_SIZE = 20 * 1024 * 1024
@@ -107,57 +115,71 @@ class ImageProcessor:
 			return True
 
 	def upload(self):
-		if not self.file_obj:
-			self.err_msg = self.t['up_fail']
-			return False
-		if not self.chk_file_size():
-			self.err_msg = self.t['js_toobig']
-			return False
-		self.dest = self.dest + "/" + self.file_obj.raw_filename
-		self.file_obj.save(self.dest, overwrite=True)
-		print("Uploaded successfully")
-		return True
+		try:
+			if not self.file_obj:
+				# self.err_msg = self.t['up_fail']
+				print('no file.obj')
+				# return False
+				raise MyUploadError(self.t['up_fail'])
+			if not self.chk_file_size():
+				# self.err_msg = self.t['js_toobig']
+				# return False
+				raise MyUploadError(self.t['js_toobig'])
+			self.dest = self.dest + "/" + self.file_obj.raw_filename
+			self.file_obj.save(self.dest, overwrite=True)
+			# self.file_obj.save(self.dest)
+		except MyUploadError:
+			raise
+		except Exception as e:
+			raise MyUploadError(self.t['up_fail'])
+		else:
+			print("Uploaded successfully")
+			return True
 
 	def analyze(self):
-		""" Exiftool을 이용해서 이미지 분석 후, 결과값 반환
-			TO-DO: 에러(예외) 발생 시, 안전한 처리 방법 만들 것! """
+		""" Exiftool을 이용해서 이미지 분석 후, 결과값 반환  """
 
 		cmd = "exiftool -ShutterCount -ImageNumber -Make -Model -FileName -FileType -CreateDate -j " + self.dest
-		print(subprocess.check_output(cmd.split(), universal_newlines=True).replace('\n', ''))
-		res = eval(subprocess.check_output(cmd.split(), universal_newlines=True).replace("\n", ""))
-		print(type(res))
-		# for k, v in res[0]:
-			# print(k, ": ", v)
-		return res[0] if res else False
+
+		try:
+			res = eval(subprocess.check_output(cmd.split(), universal_newlines=True).replace("\n", ""))
+			if not res or not res[0]:
+				print("RES?")
+				raise Exception
+		except Exception as e:
+			print("???:", e.args[0])
+			raise
+		else:
+			return res[0]
 
 	def get_result(self):
 		""" 이미지를 분석하고, 결과를 출력할 HTML 테이블을 만들어서 반환 """
-		data = self.analyze()
-		if not data:
-			print("no data!")
-			return False
+
+		try:
+			data = self.analyze()
+		except:
+			print("GET_RESULT")
+			raise MyAnalyzeError(self.t['exif_fail'])
 
 		# 셔터 카운트 얻기
 		if 'ShutterCount' in data:
 			shutter_count = data['ShutterCount']
-			print(shutter_count)
 		elif 'ImageNumber' in data:
 			shutter_count = data['ImageNumber']
 		else:
 			shutter_count = 0
 
-		shutter_count = '{:,}'.format(int(shutter_count))
-
 		if shutter_count:
+			shutter_count = '{:,}'.format(int(shutter_count))
 			res_sc = self.t['sc1'] + "<span class=\"count-num\">" + shutter_count + "</span>" + self.t['sc2']
 		else:
+			print(type(shutter_count))
 			res_sc = '<div class="no_sc">' + self.t['no_sc'] + '</div>'
 
 		# 필요한 데이터만 옮겨담기 (data -> result) & 항목명 번역
 		res_dic = {}
 		key_names = {"Make":"제작사", "Model":"제품명", "FileType":"파일 종류",  "CreateDate":"촬영일자"}
 		if self.t['lang'] == 'ko':
-			print("한글이다!!")
 			for data_key in data.keys():
 				if data_key in key_names:
 					res_dic[key_names[data_key]] = data[data_key]
@@ -173,7 +195,7 @@ class ImageProcessor:
 			tbl += '</table>'
 		else:
 			tbl = self.t['exif_fail']
-		print(tbl)
+
 		return tbl
 
 
@@ -193,14 +215,13 @@ def show_result():
 	"""" 사진 분석 & 결과 출력  """
 
 	t = get_text_result()
-
 	img = ImageProcessor('imagefile', 'pool', t)
 
-	if img.upload() == False:
-		# TODO: 업로드 실패 시, 에러 처리
-		pass
-
-	result = img.get_result()
+	try:
+		img.upload()
+		result = img.get_result()
+	except (MyUploadError, MyAnalyzeError) as e:
+		return template('error.tpl', error=e.args[0])
 
 	return template('result.tpl', t=t, result=result)
 
@@ -209,10 +230,31 @@ def show_result():
 def access_error():
 	""" 결과 페이지에 대한 잘못된 접근 처리 """
 	""" 고칠 것!! """
-	print("잘못된 접근이라구!")
-	raise HTTPError(403, header=['Location', '/'])
+	return template('error.tpl', error='Invalid Access')
+
+@app.route('/chkpool')
+def check_pool():
+	print("Checking pool...")
+
+	dir = "pool/"
+	dir_arch = dir + "arch/"
+
+	out = ""
+
+	for file in glob.iglob(dir + '/*'):
+		file_orig = dir + file
+		file_new = dir_arch + file
+		file_tn = dir_arch + "tn_" + file
+
+		out += "<a href=\"{0}\" target=\"_new\">{1}</a><br />".format(dir + file, file)
+
+	return out
+
+
+	# return template('check_pool.tpl')
 
 @app.route('/static/<filename>')
+@app.route('/pool/arch/<filename>')
 def serve_static(filename):
 	""" 정적 파일에 대한 요청을 처리 """
 	return static_file(filename, root='static')

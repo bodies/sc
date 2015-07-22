@@ -8,7 +8,7 @@
 				<div class="info2"><p>{{!t['info']}}</p></div>
 				<div id="upload_form">
 					<h3>{{!t['h3']}}</h3>
-					<form name="imgform" method="post" action="/result" enctype="multipart/form-data" onSubmit="javascript:return precheck_file({{!t['js_nofile']}}, {{!t['js_notype']}}, {{!t['uploading']}});">
+					<form name="imgform" method="post" action="/result" enctype="multipart/form-data" onSubmit="javascript:return precheck_file('{{!t['js_nofile']}}', '{{!t['js_notype']}}', '{{!t['uploading']}}');">
 						<div class="form_file">
 							<input type="file" name="imagefile" id="imagefile" />
 							<input type="submit" class="submit" id="submitbtn" value="{{!t['btn']}}" />

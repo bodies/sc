@@ -14,6 +14,5 @@ function precheck_file(t_nofile, t_notype, t_uploading) {
 function choose_lang(lang) {
 	lang = (lang == 'ko') ? 'en' : 'ko';
 	document.getElementById('lang').value = lang;
-	alert(document.getElementById('lang').value);
 	document.langForm.submit();
 }
