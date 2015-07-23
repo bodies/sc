@@ -9,3 +9,6 @@ test.py
 
 # OSX
 .DS_Store
+
+# Cache
+__pycache__
