@@ -265,18 +265,18 @@ def access_error():
     return template('error.tpl', error='Invalid Access')
 
 
-@app.route('/clrpool')
-def clear_pool():
-    print("Clearing pool...")
+# @app.route('/clrpool')
+# def clear_pool():
+#     print("Clearing pool...")
 
-    pool_dir = 'pool/'
-    # arch_dir = pool_dir + 'arch/'
-    print('ClEARING...')
+#     pool_dir = 'pool/'
+#     # arch_dir = pool_dir + 'arch/'
+#     print('ClEARING...')
 
-    subprocess.call(("rm", "-rf", pool_dir))
-    os.mkdir('pool')
+#     subprocess.call(("rm", "-rf", pool_dir))
+#     os.mkdir('pool')
 
-    return ('<a href="chkpool">Go Back</a>')
+#     return ('<a href="chkpool">Go Back</a>')
 
 
 @app.route('/static/<filename>')
@@ -287,6 +287,7 @@ def serve_static(filename):
 
 @app.route('/pool/arch/<filename>')
 def serve_image(filename):
+    """ For chkpool """
     return static_file(filename, root='pool/arch')
 
 
