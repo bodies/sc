@@ -1,6 +1,5 @@
 """
     Shutter Counter
-
     Version 0.1
 """
 
@@ -8,7 +7,7 @@ import os
 import subprocess
 from bottle import Bottle, template, request, response, static_file
 
-import chkpool
+import chkpool  # for test
 
 
 """
