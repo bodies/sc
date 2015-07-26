@@ -87,7 +87,7 @@ def get_lang():
     elif request.cookies.get('lang'):
         return 'ko' if request.cookies['lang'] == 'ko' else 'en'
     elif request.environ.get("HTTP_ACCEPT_LANGUAGE"):
-        lang = 'ko' if request.environ['HTTP_ACCEPT_LANGUAGE'] == 'ko' else 'en'
+        lang = 'ko' if 'ko' in request.environ['HTTP_ACCEPT_LANGUAGE'].lower() else 'en'
     else:
         lang = 'en'
 
@@ -129,7 +129,6 @@ class ImageProcessor:
 
     def chk_file_size(self):
         MAX_FILE_SIZE = 20 * 1024 * 1024
-        print("file size: " + str(os.stat(self.file_obj.file.fileno()).st_size))
         if os.stat(self.file_obj.file.fileno()).st_size > MAX_FILE_SIZE:
             return False
         else:
@@ -138,23 +137,16 @@ class ImageProcessor:
     def upload(self):
         try:
             if not self.file_obj:
-                # self.err_msg = self.t['up_fail']
-                print('no file.obj')
-                # return False
                 raise MyUploadError(self.t['up_fail'])
             if not self.chk_file_size():
-                # self.err_msg = self.t['js_toobig']
-                # return False
                 raise MyUploadError(self.t['js_toobig'])
             self.dest = self.dest + "/" + self.file_obj.raw_filename
             self.file_obj.save(self.dest, overwrite=True)
-            # self.file_obj.save(self.dest)
         except MyUploadError:
             raise
         except Exception:
             raise MyUploadError(self.t['up_fail'])
         else:
-            print("Uploaded successfully")
             return True
 
     def analyze(self):
@@ -164,13 +156,11 @@ class ImageProcessor:
         cmd.append(self.dest)
         try:
             # cmd에 파일명까지 넣고 split()할 경우, 파일명에 공백이 있을 경우, 에러가 난다
-
             res = eval(subprocess.check_output(cmd, universal_newlines=True).replace("\n", ""))
             if not res or not res[0]:
-                print("RES?")
                 raise Exception
         except Exception as e:
-            print("???:", e.args[0])
+            # print("???:", e.args[0])
             raise
         else:
             return res[0]
@@ -181,7 +171,6 @@ class ImageProcessor:
         try:
             data = self.analyze()
         except:
-            print("GET_RESULT")
             raise MyAnalyzeError(self.t['exif_fail'])
 
         # 셔터 카운트 얻기
@@ -196,7 +185,6 @@ class ImageProcessor:
             shutter_count = '{:,}'.format(int(shutter_count))
             res_sc = self.t['sc1'] + "<span class=\"count-num\">" + shutter_count + "</span>" + self.t['sc2']
         else:
-            print(type(shutter_count))
             res_sc = '<div class="no_sc">' + self.t['no_sc'] + '</div>'
 
         # 필요한 데이터만 옮겨담기 (data -> result) & 항목명 번역
@@ -300,5 +288,5 @@ def error404(error):
 MAIN
 """
 
-if __name__ == '__main__':
-    app.run(host="127.0.0.1", port=5000, debug=True, reloader=True)
+# if __name__ == '__main__':
+    # app.run(host="127.0.0.1", port=5000, debug=True, reloader=True)
