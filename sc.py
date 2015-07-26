@@ -1,6 +1,6 @@
 """
     Shutter Counter
-    Version 0.1
+    Version 1.0
 """
 
 import os
@@ -51,7 +51,7 @@ def get_text_form():
 
 
 def get_text_result():
-    """ 결과 페이지에서 사용할 텍스트를 반환한다. (get_text_form과 거의 같음)  """
+    """ 결과 페이지에서 사용할 텍스트  """
 
     t = {}
     if get_lang() == 'ko':
@@ -288,5 +288,6 @@ def error404(error):
 MAIN
 """
 
-# if __name__ == '__main__':
-    # app.run(host="127.0.0.1", port=5000, debug=True, reloader=True)
+""" for development  """
+if __name__ == '__main__':
+    app.run(host="127.0.0.1", port=5000, debug=True, reloader=True)
