@@ -70,11 +70,16 @@ input.submit {
 }
 
 #result { margin:1em 0; }
-#resultTable { margin-left:6px; }
+#resultTable { margin-left:2em; }
 #resultTable { }
-.sctable { font-size: 1.6em; font-weight:bold; padding: 8px 10px 24px 10px; }
-.no_sc { font-size: 0.7em !important; }
-.etcinfo td { font-size: 1em; padding:0.3em 1em 0.3em 5px; color:#555; }
+.sctable {
+	font-size: 1.6em; font-weight:bold;
+	padding: 1em 1em 1.6em 1em;
+	text-align: center;
+}
+.no_sc { font-size: 0.8em !important; }
+.count-num { font-size: 1.2em; }
+.etcinfo td { font-size: 1em; padding:0.3em 1em; }
 .res_footer { text-align:center; margin-bottom:0.2em;}
 
 .ad_banner {
